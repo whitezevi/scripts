@@ -1,0 +1,2 @@
+# scripts
+OS secure guide
