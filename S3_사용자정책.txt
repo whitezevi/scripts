@@ -1,0 +1,77 @@
+1. IAM User for specific Bucket Name
+---------------------------------------------------------------------------
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAllMyBuckets",
+                "s3:GetObjectAcl",
+                "s3:PutObjectAcl",
+                "s3:GetBucketAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::log-backup"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::log-backup/*"
+            ]
+        }
+    ]
+}
+
+
+
+2. S3 Bucket Policy ny specific User
+---------------------------------------------------------------------------
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1501460489322",
+    "Statement": [
+        {
+            "Sid": "Stmt1501460474394",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::123456789012:user/backup-user1"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::log-backup",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": [
+                        "112.123.112.112/32",
+                        "114.13.13.13/32",
+                        "111.111.111.111/32"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "Stmt1501460487995",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::123456789012:user/backup-user1"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::log-backup/*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": [
+                        "112.123.112.112/32",
+                        "114.13.13.13/32",
+                        "111.111.111.111/32"
+                     ]
+                }
+            }
+        }
+    ]
+}
+---------------------------------------------------------------------------
